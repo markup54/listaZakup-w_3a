@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.listazakupowmodyfikowalna"
-        minSdk 21
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -38,4 +38,6 @@ dependencies {
     //zależnożności RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     //po modyfikacji kliknij Sync Now
+    //json
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

@@ -1,10 +1,12 @@
 package com.example.listazakupowmodyfikowalna;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +23,18 @@ public class ZakupyAdapter
         inflater =LayoutInflater.from(context);
         this.produkty = produkty;
     }
-
+    //dodawanie do listy zakupów
+    //dodajemy do ArrayList produkty
+    //aktualizujemy wyświetlanie
+    public void dodajProdukt(Produkt produkt){
+        produkty.add(produkt);
+        notifyItemInserted(produkty.size()-1);
+    }
+    //usuwanie z listy zakupów
+    public void usunZListy(){
+        produkty.removeIf(x -> x.isZaznaczony());
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public ProduktViewHolder onCreateViewHolder
@@ -49,6 +62,30 @@ public class ZakupyAdapter
                 .setText(aktualnyProdukt.getNazwa());
         holder.checkBoxItem
                 .setChecked(aktualnyProdukt.isZaznaczony());
+        holder.checkBoxItem.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(
+                            CompoundButton compoundButton,
+                            boolean b) {
+                        aktualnyProdukt.setZaznaczony(b);
+                        if(b){
+                            holder.checkBoxItem
+                                    .setPaintFlags(
+                                            holder.checkBoxItem.getPaintFlags()
+                                    | Paint.STRIKE_THRU_TEXT_FLAG);
+                            //prezkreślenie
+                        }
+                        else{
+                            holder.checkBoxItem
+                                    .setPaintFlags(
+                                            holder.checkBoxItem.getPaintFlags()
+                                    & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                            //uswuwanie przekreslenia
+                        }
+                    }
+                }
+        );
     }
 
     @Override
